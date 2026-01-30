@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>YatraGuard — Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="login.css" />
+</head>
+
+<body>
+  
+<div id="instructionModal" class="instruction-overlay">
+  <div class="instruction-box glass">
+    
+    <div class="instruction-header">
+      <span class="warning-icon">⚠️</span>
+      <h2>Access Instructions</h2>
+      <p class="instruction-subtitle">
+        Please follow the correct credentials to proceed
+      </p>
+    </div>
+
+    <div class="instruction-section user">
+      <h3>👤 Normal Users (the face-id opens)</h3>
+      <p><strong>Booking ID:</strong> ABC123</p>
+      <p><strong>Aadhaar:</strong> 123412341234</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="instruction-section judge">
+      <h3>🧑‍⚖️ Judges / Evaluators</h3>
+      <p><strong>Booking ID:</strong> DEMO</p>
+      <p>Click <strong>the button</strong> to access Dashboard</p>
+    </div>
+
+    <button id="instructionOk" class="btn-primary glow">
+      OK, I Understand
+    </button>
+
+  </div>
+</div>
+
+
+  <div class="background"></div>
+
+  <div class="login-container">
+    <div class="logo-area">
+      <img src="logo.jpg" class="logo" />
+      <h1 class="app-name">YatraGuard</h1>
+      <p class="tagline">Your AI Travel Companion</p>
+    </div>
+
+    <div class="login-box glass">
+      <p class="subtitle">Enter Booking ID & Aadhaar</p>
+
+      <div class="input-group">
+        <input type="text" id="bookingId" required />
+        <label>Booking ID</label>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="aadhaar" maxlength="12" required />
+        <label>Aadhaar Number</label>
+      </div>
+
+      <button id="loginBtn" class="btn-primary">
+        Proceed to Face Verification
+      </button>
+    </div>
+  </div>
+
+  
+  <div id="cameraModal" class="modal hidden">
+    <div class="modal-content glass">
+      <h3>Face Verification</h3>
+      <video id="camera" autoplay muted playsinline></video>
+      <p id="status">Initializing...</p>
+    </div>
+  </div>
+
+  
+  <script src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
+  
+  <script src="login.js"></script>
+
+</body>
+</html>

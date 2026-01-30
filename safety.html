@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YatraGuard Safety Tips</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #fff;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('15092.jpg') no-repeat center center fixed;
+      background-size: cover;
+      filter: blur(7px) brightness(0.7);
+      z-index: -2;
+    }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(120deg, rgba(30,30,40,0.7) 0%, rgba(255,152,0,0.18) 100%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .container {
+      max-width: 900px;
+      margin: 60px auto 40px auto;
+      background: rgba(255,255,255,0.08);
+      border-radius: 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+      padding: 48px 36px 36px 36px;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffb74d;
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 12px rgba(255,152,0,0.18);
+    }
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #00e6e6;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px rgba(0,230,230,0.18);
+    }
+    ul.safety-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px 36px;
+    }
+    ul.safety-list li {
+      background: linear-gradient(90deg, rgba(255,255,255,0.09) 0%, rgba(255,152,0,0.13) 100%);
+      border-radius: 18px;
+      padding: 22px 24px;
+      font-size: 1.08rem;
+      font-weight: 500;
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(255,152,0,0.10);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      border-left: 6px solid #ffb74d;
+      border-bottom: 2px solid #00e6e6;
+    }
+    ul.safety-list li.do {
+      border-left: 6px solid #00e676;
+      background: linear-gradient(90deg, rgba(0,230,118,0.09) 0%, rgba(255,255,255,0.07) 100%);
+      color: #00ffc3;
+    }
+    ul.safety-list li.dont {
+      border-left: 6px solid #ff1744;
+      background: linear-gradient(90deg, rgba(255,23,68,0.09) 0%, rgba(255,255,255,0.07) 100%);
+      color: #ffb4b4;
+    }
+    ul.safety-list li:hover {
+      transform: scale(1.04) translateY(-4px);
+      box-shadow: 0 8px 32px rgba(255,152,0,0.18);
+    }
+    .badge {
+      position: absolute;
+      top: -18px;
+      left: 18px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 4px 16px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #ff9800 0%, #ffb74d 100%);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(255,152,0,0.18);
+      letter-spacing: 1px;
+    }
+    .badge.do {
+      background: linear-gradient(90deg, #00e676 0%, #00bfae 100%);
+      color: #fff;
+    }
+    .badge.dont {
+      background: linear-gradient(90deg, #ff1744 0%, #ff8a65 100%);
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .container { padding: 24px 8px; }
+      ul.safety-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <h1>YatraGuard Safety Tips</h1>
+    <h2>20 Essential Do's & Don'ts for a Safe Journey</h2>
+    <ul class="safety-list">
+      <li class="do"><span class="badge do">DO</span>Keep your emergency contacts updated and easily accessible.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Share your travel plans or location with strangers.</li>
+      <li class="do"><span class="badge do">DO</span>Carry a copy of your ID, passport, and important documents.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Leave your belongings unattended in public places.</li>
+      <li class="do"><span class="badge do">DO</span>Use registered taxis and verified transport services.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Accept food or drinks from unknown people.</li>
+      <li class="do"><span class="badge do">DO</span>Keep your phone charged and carry a power bank.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Ignore local safety advisories and weather alerts.</li>
+      <li class="do"><span class="badge do">DO</span>Inform family or friends about your itinerary.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Display expensive items or cash openly.</li>
+      <li class="do"><span class="badge do">DO</span>Stay hydrated and carry bottled water.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Venture into isolated areas, especially at night.</li>
+      <li class="do"><span class="badge do">DO</span>Respect local customs, traditions, and dress codes.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Ignore signs or warnings in unfamiliar places.</li>
+      <li class="do"><span class="badge do">DO</span>Use strong passwords and enable device security features.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Share sensitive information over public Wi-Fi.</li>
+      <li class="do"><span class="badge do">DO</span>Download offline maps and translator apps before your trip.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Overpack; keep your luggage light and manageable.</li>
+      <li class="do"><span class="badge do">DO</span>Trust your instincts—leave if you feel uncomfortable.</li>
+      <li class="dont"><span class="badge dont">DON'T</span>Forget to check the expiry dates of your medicines and essentials.</li>
+    </ul>
+  </div>
+</body>
+</html>

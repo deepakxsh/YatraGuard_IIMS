@@ -1,0 +1,98 @@
+
+<div id="ai-chatbot-bubble" 
+     style="position:fixed; bottom:20px; right:20px; width:60px; height:60px; 
+            background:#00c6ff; border-radius:50%; cursor:pointer; 
+            display:flex; align-items:center; justify-content:center; z-index:9999; 
+            box-shadow:0 4px 15px rgba(0,0,0,0.3);">
+  🤖
+</div>
+
+
+<div id="ai-chatbot-panel" 
+     style="position:fixed; top:0; right:-35%; width:35%; height:100%; 
+            background:rgba(20,20,20,0.95); backdrop-filter:blur(15px); 
+            box-shadow:-4px 0 25px rgba(0,0,0,0.5); border-left:1px solid rgba(255,255,255,0.2); 
+            display:flex; flex-direction:column; transition:0.5s ease; z-index:9998;">
+  
+  
+  <div style="padding:15px; font-weight:bold; font-size:18px; color:#fff; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1);">
+    AI Chatbot
+    <span id="close-chatbot" style="cursor:pointer; font-size:20px;">✖️</span>
+  </div>
+
+ 
+  <div id="chat-messages" style="flex:1; overflow-y:auto; padding:15px; display:flex; flex-direction:column; gap:10px;">
+   
+  </div>
+
+ 
+  <div style="padding:10px; border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:5px;">
+    <input id="chat-input" type="text" placeholder="Ask me anything..." 
+           style="flex:1; padding:10px; border-radius:15px; border:none; outline:none;"/>
+    <button id="chat-send" 
+            style="padding:10px 15px; border-radius:15px; border:none; background:#00c6ff; color:#000; font-weight:bold; cursor:pointer;">Send</button>
+  </div>
+</div>
+
+<script>
+  const bubble = document.getElementById('ai-chatbot-bubble');
+  const panel = document.getElementById('ai-chatbot-panel');
+  const closeBtn = document.getElementById('close-chatbot');
+  const messagesDiv = document.getElementById('chat-messages');
+  const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+
+
+  bubble.onclick = () => {
+    panel.style.right = '0';
+    bubble.style.display = 'none';
+  };
+  closeBtn.onclick = () => {
+    panel.style.right = '-35%';
+    bubble.style.display = 'flex';
+  };
+
+  // Send Message
+  sendBtn.onclick = sendMessage;
+  input.addEventListener("keypress", function(e) { if(e.key==="Enter") sendMessage(); });
+
+  function sendMessage() {
+    let userText = input.value.trim();
+    if(!userText) return;
+    addMessage(userText, 'user');
+    input.value = '';
+
+    // Simulate AI response with simple rules
+    setTimeout(() => {
+      let aiText = getAIResponse(userText);
+      addMessage(aiText, 'ai');
+    }, 800);
+  }
+
+  function addMessage(text, sender) {
+    const msg = document.createElement('div');
+    msg.textContent = text;
+    msg.style.padding = '10px 15px';
+    msg.style.borderRadius = '15px';
+    msg.style.maxWidth = '80%';
+    msg.style.wordWrap = 'break-word';
+    msg.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+    msg.style.backdropFilter = 'blur(5px)';
+    msg.style.background = sender==='ai' ? 'rgba(0,198,255,0.15)' : 'rgba(255,255,255,0.15)';
+    msg.style.alignSelf = sender==='ai' ? 'flex-start' : 'flex-end';
+    messagesDiv.appendChild(msg);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  function getAIResponse(text) {
+    text = text.toLowerCase();
+    // Simple rules-based prototype
+    if(text.includes('taxi')) return 'Redirecting to your Taxi History page... <a href="taxi.html" style="color:#0ff;">Click here</a>';
+    if(text.includes('hotel')) return 'You can check your Hotel History here: <a href="hotel.html" style="color:#0ff;">View Hotels</a>';
+    if(text.includes('flight')) return 'You have a flight from Delhi to Mumbai on 12 Aug, seat 14A.';
+    if(text.includes('emergency')) return 'You can see nearby tourists or local emergency numbers in the Emergency Contacts section.';
+    if(text.includes('hi') || text.includes('hello')) return 'Hello! How can I assist you with your travel today?';
+    if(text.includes('recommend')) return 'Based on your past trips, I suggest Hotel Luxe in Mumbai or Hotel Royale in Bangalore.';
+    return 'Sorry, I am still learning. Please ask about trips, hotels, taxis, or safety info.';
+  }
+</script>

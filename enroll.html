@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Enroll Aadhaar Face</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+    }
+    video {
+      width: 320px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Enroll Aadhaar Face (One Time)</h2>
+
+  <input id="aadhaar" placeholder="Enter Aadhaar Number" maxlength="12" />
+  <br />
+
+  <video id="video" autoplay muted></video>
+  <br />
+
+  <button id="capture">Capture & Save Face</button>
+
+  <p id="status"></p>
+
+  <script>
+    const video = document.getElementById("video");
+    const statusText = document.getElementById("status");
+
+    const MODEL_URL = "./models";
+
+    async function loadModels() {
+      await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+      await faceapi.nets.faceLandmark68TinyNet.loadFromUri(MODEL_URL);
+      await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+      console.log("Models loaded");
+    }
+
+    async function startCamera() {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+    }
+
+    document.getElementById("capture").onclick = async () => {
+      const aadhaar = document.getElementById("aadhaar").value.trim();
+
+      if (!aadhaar) {
+        alert("Enter Aadhaar number");
+        return;
+      }
+
+      const detection = await faceapi
+        .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+        .withFaceLandmarks(true)
+        .withFaceDescriptor();
+
+      if (!detection) {
+        statusText.innerText = "❌ No face detected";
+        return;
+      }
+
+      const descriptor = Array.from(detection.descriptor);
+
+      localStorage.setItem(
+        "aadhaar_face_" + aadhaar,
+        JSON.stringify(descriptor)
+      );
+
+      statusText.innerText = "✅ Face enrolled successfully";
+    };
+
+    loadModels().then(startCamera);
+  </script>
+
+</body>
+</html>

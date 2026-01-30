@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nearby Tourists</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('1509.jpg') no-repeat center center/cover;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      backdrop-filter: blur(5px);
+    }
+    .dialog {
+      margin-top: 30px;
+      padding: 15px 20px;
+      border-radius: 12px;
+      background: rgba(255, 75, 92, 0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      max-width: 600px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 15px;
+      color: #ffcccc;
+    }
+    .contacts {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 90%;
+      max-width: 900px;
+    }
+    .card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+    .name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .phone {
+      font-size: 16px;
+      color: #0ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="dialog">
+    ⚠️ ONLY MALE PHONE CONTACT NUMBERS ARE SHOWN TO ENSURE THE SAFETY AND PRIVACY OF FEMALE TRAVELLERS
+  </div>
+
+  <div class="contacts">
+    <div class="card">
+      <div class="name">Rahul Mehta</div>
+      <div class="phone">+91 98765 43210</div>
+    </div>
+    <div class="card">
+      <div class="name">Arjun Singh</div>
+      <div class="phone">+91 98234 56789</div>
+    </div>
+    <div class="card">
+      <div class="name">Amit Sharma</div>
+      <div class="phone">+91 99112 33445</div>
+    </div>
+    <div class="card">
+      <div class="name">Vikram Das</div>
+      <div class="phone">+91 99345 66778</div>
+    </div>
+    <div class="card">
+      <div class="name">Karan Patel</div>
+      <div class="phone">+91 98123 45678</div>
+    </div>
+    <div class="card">
+      <div class="name">Rohit Verma</div>
+      <div class="phone">+91 99234 56780</div>
+    </div>
+  </div>
+</body>
+</html>

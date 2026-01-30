@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOS Alert</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff4e50, #fc913a);
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    .sos-box {
+      padding: 40px;
+      border-radius: 20px;
+      background: rgba(0,0,0,0.6);
+      animation: fadeIn 1s ease-in-out;
+      max-width: 400px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background: red;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s;
+    }
+    button:hover {
+      transform: scale(1.1);
+      background: darkred;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="sos-box">
+    <h1>🚨 SOS Activated</h1>
+    <p>AUTHORITES HAVE BEEN ALERTED, HELP IS READY. We are fetching your location.<br>
+       Click the button below to send your emergency alert.</p>
+    <button id="sendBtn">HELP AND SEND LOCATION</button>
+  </div>
+
+  <script>
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          // Replace with the number you want (with country code)
+          const phoneNumber = "918822459466"; 
+
+          const message = `SOS! I need help. My location: https://maps.google.com/?q=${lat},${lon}`;
+
+          // Open WhatsApp
+          window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+          // 👉 If you want SMS instead, use this line:
+          // window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+        }, () => {
+          alert("Unable to fetch your location. Please enable GPS.");
+        });
+      } else {
+        alert("Geolocation is not supported by your browser.");
+      }
+    });
+  </script>
+</body>
+</html>

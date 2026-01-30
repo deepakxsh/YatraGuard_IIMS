@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local Emergency Numbers</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('1509.jpg') no-repeat center center/cover;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      backdrop-filter: blur(5px);
+    }
+    h1 {
+      margin-top: 30px;
+      font-size: 26px;
+      text-align: center;
+      color: #ffebcd;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .contacts {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      width: 90%;
+      max-width: 1000px;
+    }
+    .card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+    .name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .phone {
+      font-size: 16px;
+      color: #0ff;
+      margin-bottom: 12px;
+    }
+    .btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #00c6ff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: #0ff;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>📞 Local Emergency Numbers</h1>
+
+  <div class="contacts">
+    <div class="card">
+      <div class="name">Tourist Police</div>
+      <div class="phone">+91 1800 111 222</div>
+      <a class="btn" href="tel:+911800111222">Call</a>
+    </div>
+    <div class="card">
+      <div class="name">Fire Station</div>
+      <div class="phone">+91 101 555 777</div>
+      <a class="btn" href="tel:+91101555777">Call</a>
+    </div>
+    <div class="card">
+      <div class="name">Medical Helpline</div>
+      <div class="phone">+91 108 999 888</div>
+      <a class="btn" href="tel:+91108999888">Call</a>
+    </div>
+    <div class="card">
+      <div class="name">Railway Helpline</div>
+      <div class="phone">+91 139 445 223</div>
+      <a class="btn" href="tel:+91139445223">Call</a>
+    </div>
+    <div class="card">
+      <div class="name">Local Attraction Authority</div>
+      <div class="phone">+91 99555 44122</div>
+      <a class="btn" href="tel:+919955544122">Call</a>
+    </div>
+    <div class="card">
+      <div class="name">Taxi Union Office</div>
+      <div class="phone">+91 98777 33445</div>
+      <a class="btn" href="tel:+919877733445">Call</a>
+    </div>
+  </div>
+</body>
+</html>

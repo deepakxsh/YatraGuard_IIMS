@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prototype - Crowd Heatmap & Safe Groups</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body, html {
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f2f5;
+    }
+    #map {
+      height: 100vh;
+      width: 70%;
+    }
+    #sidebar {
+      width: 30%;
+      padding: 20px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.15);
+      overflow-y: auto;
+    }
+    h2 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .group {
+      margin-bottom: 12px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+    .group:hover {
+      transform: scale(1.02);
+      background: #eef6ff;
+    }
+    .group strong {
+      color: #0072ff;
+    }
+    .alerts {
+      margin-top: 20px;
+    }
+    .alert-box {
+      background: #fff3f3;
+      color: #b30000;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-left: 5px solid #b30000;
+      border-radius: 6px;
+      font-size: 14px;
+      display: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .trip-info {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f0faff;
+      border-radius: 8px;
+      font-size: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .trip-info strong {
+      color: #005bbb;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="sidebar">
+    <h2>✅ Verified Safe Groups Nearby</h2>
+    <div class="group" onclick="zoomToGroup(0)"><strong>Group A:</strong> Travelers near a Café</div>
+    <div class="group" onclick="zoomToGroup(1)"><strong>Group B:</strong> Travelers near Park</div>
+    <div class="group" onclick="zoomToGroup(2)"><strong>Group C:</strong> Travelers near Metro Hub</div>
+    
+    <div class="alerts">
+      <h2>⚠️ AI Alerts</h2>
+      <div id="alert1" class="alert-box"></div>
+      <div id="alert2" class="alert-box"></div>
+      <div id="alert3" class="alert-box"></div>
+    </div>
+
+    <div class="trip-info" id="tripDetailsBox">
+      <h2>🧳 Trip Info</h2>
+      <p id="tripDestination"></p>
+      <p id="tripTaxi"></p>
+      <p id="tripHotel"></p>
+      <p id="tripOvernight"></p>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+  <script>
+    var map = L.map('map').setView([28.6139, 77.2090], 13);
+
+    // Tile Layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var heatLayer;
+    var groupMarkers = [];
+
+    // Fake heatmap points generator
+    function generateHeatPoints(lat, lon) {
+      let points = [];
+      for (let i = 0; i < 20; i++) {
+        let randomLat = lat + (Math.random() - 0.5) * 0.01;
+        let randomLon = lon + (Math.random() - 0.5) * 0.01;
+        let intensity = Math.random();
+        points.push([randomLat, randomLon, intensity]);
+      }
+      return points;
+    }
+
+    // Alert messages list
+    const alertMessages = [
+      "THE ATTRACTION MAY BE TOO CROWDED TODAY",
+      "ACCIDENT DETECTED",
+      "PLEASE TAKE CASH WITH YOU, INTERNET DOWN REPORTED",
+      "PLEASE BE CAUTIOUS, SLIPPERY REPORTED",
+      "MORE FOGGY TODAY",
+      "TOO SUNNY TODAY AT THE LOCATION, BE READY"
+    ];
+
+    // Random contacts generator
+    function generateContacts() {
+      let contacts = [];
+      for (let i = 0; i < 3; i++) {
+        let phone = "+91 " + Math.floor(6000000000 + Math.random() * 3999999999);
+        contacts.push(phone);
+      }
+      return contacts;
+    }
+
+    // Show 3 random alerts
+    function showRandomAlerts(lat, lon) {
+      let shuffled = [...alertMessages].sort(() => 0.5 - Math.random());
+      let selected = shuffled.slice(0, 3);
+
+      document.getElementById("alert1").innerText = "⚠️ " + selected[0];
+      document.getElementById("alert1").style.display = "block";
+
+      document.getElementById("alert2").innerText = "⚠️ " + selected[1];
+      document.getElementById("alert2").style.display = "block";
+
+      document.getElementById("alert3").innerText = "⚠️ " + selected[2];
+      document.getElementById("alert3").style.display = "block";
+
+      selected.forEach(msg => {
+        let anomalyLat = lat + (Math.random() - 0.5) * 0.02;
+        let anomalyLon = lon + (Math.random() - 0.5) * 0.02;
+
+        let anomalyMarker = L.circleMarker([anomalyLat, anomalyLon], {
+          radius: 12,
+          color: "red",
+          fillColor: "#ff0000",
+          fillOpacity: 0.8
+        }).addTo(map);
+
+        anomalyMarker.bindPopup("⚠️ " + msg).openPopup();
+
+        setTimeout(() => map.removeLayer(anomalyMarker), 15000);
+      });
+    }
+
+    // Function to zoom to group and show contacts
+    function zoomToGroup(index) {
+      if (groupMarkers[index]) {
+        map.setView(groupMarkers[index].getLatLng(), 16);
+        groupMarkers[index].openPopup();
+      }
+    }
+
+    // Get trip details from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const dest = urlParams.get("destination");
+    const taxi = urlParams.get("taxi");
+    const taxiNumber = urlParams.get("taxiNumber");
+    const overnight = urlParams.get("overnight");
+    const hotel = urlParams.get("hotel");
+    const hotelName = urlParams.get("hotelName");
+
+    // Show trip info in sidebar
+    if (dest) document.getElementById("tripDestination").innerHTML = "<strong>Destination:</strong> " + dest;
+    if (taxi === "yes") document.getElementById("tripTaxi").innerHTML = "<strong>Taxi Number:</strong> " + taxiNumber;
+    else if (taxi === "no") document.getElementById("tripTaxi").innerHTML = "<strong>Taxi:</strong> Let AI detect";
+    if (overnight) document.getElementById("tripOvernight").innerHTML = "<strong>Overnight Stay:</strong> " + overnight;
+    if (hotel === "yes") document.getElementById("tripHotel").innerHTML = "<strong>Hotel:</strong> " + hotelName;
+    else if (hotel === "no") document.getElementById("tripHotel").innerHTML = "<strong>Hotel:</strong> Let AI detect";
+
+    // Geocode destination and center map
+    if (dest) {
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${dest}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.length > 0) {
+            const lat = parseFloat(data[0].lat);
+            const lon = parseFloat(data[0].lon);
+            map.setView([lat, lon], 14);
+            L.marker([lat, lon]).addTo(map).bindPopup(`📍 Destination: ${dest}`).openPopup();
+
+            // Heatmap
+            heatLayer = L.heatLayer(generateHeatPoints(lat, lon), {
+              radius: 25,
+              gradient: {0.0:'green',0.5:'yellow',1.0:'red'}
+            }).addTo(map);
+
+            setInterval(() => {
+              heatLayer.setLatLngs(generateHeatPoints(lat, lon));
+            }, 5000);
+
+            // AI alerts
+            setInterval(() => {
+              showRandomAlerts(lat, lon);
+            }, 12000);
+
+            // Place groups nearby
+            for (let i = 0; i < 3; i++) {
+              let offsetLat = lat + (Math.random() - 0.5) * 0.01;
+              let offsetLon = lon + (Math.random() - 0.5) * 0.01;
+              let contacts = generateContacts();
+              let popupContent = `
+                <b>👥 Group ${String.fromCharCode(65+i)}</b><br>
+                Travelers nearby<br><br>
+                📞 Contacts:<br>
+                ${contacts.join("<br>")}
+              `;
+              let marker = L.marker([offsetLat, offsetLon]).addTo(map).bindPopup(popupContent);
+              groupMarkers.push(marker);
+            }
+
+          } else {
+            map.setView([28.6139, 77.2090], 13);
+            alert("❌ Destination not found. Showing default map.");
+          }
+        });
+    } else {
+      map.setView([28.6139, 77.2090], 13);
+    }
+  </script>
+</body>
+</html>

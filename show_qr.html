@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show QR - Smart Check-In</title>
+  <link rel="stylesheet" href="show_qr.css">
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="qr-container">
+    <h2>Show This QR to Manager</h2>
+    <div class="qr-box">🔲 QR-CODE-12345 🔲</div>
+    <p id="qr-status">Displaying QR…</p>
+  </div>
+
+  <div id="room-popup" class="popup hidden"></div>
+  <div id="recommend-popup" class="popup hidden"></div>
+
+  <script src="show_qr.js"></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taxi Trip History</title>
+<link rel="stylesheet" href="taxi.css">
+
+<!-- Mapbox CSS -->
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.20.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+<div class="background-overlay"></div>
+
+<header>
+    <h1>🚖 Your Taxi Trips</h1>
+    <p>Review your journeys and explore the routes you traveled.</p>
+</header>
+
+<main>
+    <section class="trip-cards">
+        <div class="trip-card" onclick="showTripDetails('trip1')">
+            <h2>Trip to Airport</h2>
+            <div class="badges">
+                <span class="badge distance">12 km</span>
+                <span class="badge fare">₹450</span>
+                <span class="badge time">30 mins</span>
+            </div>
+            <p>Date: 10 Sep 2025</p>
+        </div>
+
+        <div class="trip-card" onclick="showTripDetails('trip2')">
+            <h2>Trip to Mall</h2>
+            <div class="badges">
+                <span class="badge distance">8 km</span>
+                <span class="badge fare">₹320</span>
+                <span class="badge time">25 mins</span>
+            </div>
+            <p>Date: 12 Sep 2025</p>
+        </div>
+
+        <div class="trip-card" onclick="showTripDetails('trip3')">
+            <h2>Trip to Office</h2>
+            <div class="badges">
+                <span class="badge distance">6 km</span>
+                <span class="badge fare">₹280</span>
+                <span class="badge time">20 mins</span>
+            </div>
+            <p>Date: 13 Sep 2025</p>
+        </div>
+    </section>
+
+    <!-- Trip details popup -->
+    <div id="trip-details-popup" class="popup">
+        <div class="popup-content animate-popup">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2 id="trip-title">Trip Details</h2>
+            <p id="trip-info">Loading...</p>
+            <div id="map"></div>
+        </div>
+    </div>
+</main>
+
+<!-- Mapbox JS -->
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.20.1/mapbox-gl.js'></script>
+<script>
+mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN'; // replace with your Mapbox token
+
+let map, marker;
+
+// Trip data
+const trips = {
+    trip1: {
+        title: "Trip to Airport",
+        info: "Route: MG Road → Airport Expressway → Terminal 1",
+        path: [
+            [77.2090,28.6139],
+            [77.2300,28.6200],
+            [77.2500,28.6300]
+        ]
+    },
+    trip2: {
+        title: "Trip to Mall",
+        info: "Route: Park Street → Central Avenue → City Mall",
+        path: [
+            [77.2090,28.6139],
+            [77.2150,28.6180],
+            [77.2200,28.6250]
+        ]
+    },
+    trip3: {
+        title: "Trip to Office",
+        info: "Route: Home → 5th Avenue → Office Building",
+        path: [
+            [77.2090,28.6139],
+            [77.2120,28.6160],
+            [77.2150,28.6200]
+        ]
+    }
+};
+
+function createCarIcon(){
+    const el = document.createElement('div');
+    el.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/743/743007.png)';
+    el.style.width = '40px';
+    el.style.height = '40px';
+    el.style.backgroundSize = 'contain';
+    el.style.backgroundRepeat = 'no-repeat';
+    return el;
+}
+
+function showTripDetails(tripId){
+    const popup = document.getElementById('trip-details-popup');
+    const title = document.getElementById('trip-title');
+    const info = document.getElementById('trip-info');
+    const tripData = trips[tripId];
+
+    if(!tripData) { console.error("Trip ID not found:", tripId); return; }
+
+    title.textContent = tripData.title;
+    info.textContent = tripData.info;
+    popup.style.display = "flex";
+
+    setTimeout(() => {
+        if(!map){
+            map = new mapboxgl.Map({
+                container:'map',
+                style:'mapbox://styles/mapbox/streets-v12',
+                center: tripData.path[0],
+                zoom:14
+            });
+        } else {
+            map.setCenter(tripData.path[0]);
+        }
+
+        if(map.getLayer('route')) map.removeLayer('route');
+        if(map.getSource('route')) map.removeSource('route');
+        if(marker) marker.remove();
+
+        map.addSource('route', {
+            type:'geojson',
+            data:{ type:'Feature', geometry:{ type:'LineString', coordinates:[tripData.path[0]] } }
+        });
+
+        map.addLayer({
+            id:'route',
+            type:'line',
+            source:'route',
+            layout:{ 'line-join':'round', 'line-cap':'round' },
+            paint:{ 'line-color':'#FF4500','line-width':5 }
+        });
+
+        marker = new mapboxgl.Marker({element:createCarIcon()})
+                 .setLngLat(tripData.path[0])
+                 .addTo(map);
+
+        let index=1;
+        const interval = setInterval(()=>{
+            if(index>=tripData.path.length) return clearInterval(interval);
+            const coords = map.getSource('route')._data.geometry.coordinates;
+            coords.push(tripData.path[index]);
+            map.getSource('route').setData({type:'Feature', geometry:{type:'LineString', coordinates:coords}});
+            marker.setLngLat(tripData.path[index]);
+            index++;
+        },800);
+
+    },300);
+}
+
+function closePopup(){
+    document.getElementById('trip-details-popup').style.display='none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YatraGuard — YatraID Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <canvas id="snow"></canvas>
+  <div class="background"></div>
+
+  <div class="login-container">
+    <div class="logo-area">
+      <img src="logo.jpg" alt="YatraGuard Logo" class="logo">
+      <h1 class="app-name">YatraGuard</h1>
+      <p class="tagline">Your AI Travel Companion</p>
+    </div>
+
+    <div class="login-box glass">
+      <!-- YatraID -->
+      <div class="input-group">
+        <input type="text" id="yatraId" required>
+        <label for="yatraId">YatraID</label>
+      </div>
+
+      <!-- Aadhaar -->
+      <div class="input-group">
+        <input type="password" id="aadhaar" maxlength="12" required>
+        <label for="aadhaar">Aadhaar</label>
+      </div>
+
+      <button id="yatraBtn" class="btn-primary">Proceed to Face Verification</button>
+
+      <div class="options">
+        <a href="https://uidai.gov.in" target="_blank">Forgot your Aadhaar?</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Camera Modal -->
+  <div id="cameraModal" class="modal hidden">
+    <div class="modal-content glass">
+      <h3>Face Verification</h3>
+      <video id="camera" autoplay playsinline muted></video>
+      <div class="scan-line"></div>
+      <p id="status">Scanning... 0s</p>
+      <p id="location"></p>
+    </div>
+  </div>
+
+  <script src="yatraid.js"></script>
+</body>
+</html>

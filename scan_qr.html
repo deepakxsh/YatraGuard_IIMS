@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan QR - Smart Check-In</title>
+  <link rel="stylesheet" href="scan_qr.css">
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="scanner-container">
+    <h2>AI Smart Check-In</h2>
+    <div class="camera-frame">
+      <div class="laser"></div>
+    </div>
+    <p id="scan-status">Opening Camera…</p>
+  </div>
+
+  <!-- AI Popups -->
+  <div id="fraud-popup" class="popup hidden"></div>
+  <div id="room-popup" class="popup hidden"></div>
+  <div id="recommend-popup" class="popup hidden"></div>
+
+  <script src="scan_qr.js"></script>
+</body>
+</html>

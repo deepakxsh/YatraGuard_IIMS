@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Stay Details</title>
+<link rel="stylesheet" href="hotel.css">
+</head>
+<body>
+<div class="background-overlay"></div>
+
+<header>
+    <h1>🏨 Your Hotel Stay</h1>
+    <p>Review your past hotel experience and get AI-powered suggestions.</p>
+</header>
+
+<main>
+    <section class="hotel-cards">
+        <div class="hotel-card" onclick="showHotelDetails()">
+            <img src="12096.jpg" alt="Hotel Stay">
+            <h2>Luxury Palace Hotel</h2>
+            <div class="badges">
+                <span class="badge stars">⭐⭐⭐⭐⭐</span>
+                <span class="badge price">₹6,500 / night</span>
+                <span class="badge room">Deluxe Room</span>
+            </div>
+            <p>Date: 1 Sep 2025 - 4 Sep 2025</p>
+        </div>
+    </section>
+
+    <!-- Hotel details popup -->
+    <div id="hotel-details-popup" class="popup">
+        <div class="popup-content animate-popup">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2 id="hotel-title">Luxury Palace Hotel</h2>
+            <p><strong>📍 Location:</strong> Connaught Place, New Delhi</p>
+            <p><strong>📅 Stay Dates:</strong> 1 Sep 2025 - 4 Sep 2025</p>
+            <p><strong>⏱ Duration:</strong> 3 nights</p>
+            <p><strong>🔢 Room Number:</strong> 405</p>
+            <p><strong>✅ Check-in:</strong> Manager scanned QR </p>
+            <p><strong>✅ AI Check-in:</strong> AI verified at 3:00 PM (2 hours after scheduled check-in) </p>
+            <button class="recommend-btn">✨ Find similar hotels for your next trip</button>
+        </div>
+    </div>
+</main>
+
+<script>
+function showHotelDetails(){
+    document.getElementById('hotel-details-popup').style.display="flex";
+}
+function closePopup(){
+    document.getElementById('hotel-details-popup').style.display="none";
+}
+</script>
+</body>
+</html>
